@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-// CORRECCIÓN [16]: Entidad Cliente con idCliente como PK natural, numeroCliente con secuencia/autoincremental única, email con @Email y fechaRegistro/activo | MOTIVO: Modelo de referencia Cliente e Inconsistencias Conocidas: idCliente (PK natural, no nulo), numeroCliente (autoincremental único, no PK), activo, fechaRegistro, puntos | ANTES: id Long autoincremental, email retornaba nombre, getPuntos retornaba puntos+1, registrado boolean en vez de activo
+// CORRECCIÓN [16]: Entidad Cliente con idCliente como PK natural, numeroCliente con secuencia autoincremental única, email con @Email y fechaRegistro/activo | MOTIVO: Modelo de referencia Cliente e Inconsistencias Conocidas: idCliente (PK natural, no nulo), numeroCliente (autoincremental único, no PK), activo, fechaRegistro, puntos | ANTES: id Long autoincremental, email retornaba nombre, getPuntos retornaba puntos+1, registrado boolean en vez de activo
 @Entity
 @Table(name = "clientes")
 public class Cliente {
@@ -18,9 +18,8 @@ public class Cliente {
     @Column(name = "id_cliente", nullable = false, length = 100)
     private String idCliente;
 
-    // AGREGADO [18]: numeroCliente autoincremental/secuencia único (no PK) | MOTIVO: Inconsistencias conocidas: numeroCliente es autoincremental pero no es PK; columna única sin usarla como @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numero_cliente", insertable = false, updatable = false, unique = true)
+    // CORRECCIÓN [18]: numeroCliente único autoincremental/secuencial (no PK) sin @GeneratedValue | MOTIVO: En JPA/Hibernate @GeneratedValue solo es legal en la propiedad del identificador (@Id); para columnas únicas no PK se gestiona a nivel de persistencia/servicio | ANTES: @GeneratedValue(strategy = GenerationType.IDENTITY) causaba Property 'numeroCliente' is annotated '@GeneratedValue' but is not part of an identifier
+    @Column(name = "numero_cliente", nullable = false, unique = true)
     private Integer numeroCliente;
 
     // CORRECCIÓN [19]: nombre como String no nulo | MOTIVO: Modelo de referencia: nombre (String, no nulo) | ANTES: private String nombre sin @Column(nullable = false)

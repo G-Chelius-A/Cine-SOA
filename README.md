@@ -307,3 +307,26 @@ Para correr la suite de pruebas unitarias y de validaciones:
   - Validación de campos requeridos y duraciones mayores a 0 en películas.
 - **`CineApplicationTests`**:
   - Verificación de arranque y carga de clases base.
+
+---
+
+## Pruebas en Postman
+
+El proyecto incluye el archivo [`postman_collection.json`](postman_collection.json) listo para ser importado directamente en Postman (**File > Import** o botón **Import**).
+
+La colección incluye variables automáticas (`{{baseUrl}} = http://localhost:6767` y `{{idFuncion}}`) y las peticiones organizadas para validar el flujo completo y las reglas de negocio:
+
+1. **Salas**: Creación de sala con capacidad reducida (2 asientos) para probar los límites.
+2. **Películas**:
+   - Creación exitosa con clasificación `B15`.
+   - Prueba de validación fallida con clasificación no permitida `ATP` (`400 Bad Request`).
+3. **Clientes**:
+   - Registro exitoso con email válido.
+   - Prueba de validación fallida con email inválido sin dominio (`400 Bad Request`).
+4. **Funciones**:
+   - Programación de función con fecha/hora ISO y precio en `BigDecimal`, devolviendo el JSON anidado con su película y sala.
+5. **Boletos y Reglas de Negocio**:
+   - Compra de boleto 1 (Fila 1 Asiento 1) -> Generación de folio UUID y acumulación de puntos.
+   - **Regla 6 (Asiento Único)**: Intento de comprar el mismo asiento (Fila 1 Asiento 1) -> `400 Bad Request` ("asiento ya reservado").
+   - Compra de boleto 2 (Fila 1 Asiento 2) -> Sala llega a su capacidad máxima (2).
+   - **Regla 5 (Capacidad Máxima)**: Intento de comprar boleto 3 (Fila 1 Asiento 3) -> `400 Bad Request` ("la sala ha alcanzado su capacidad máxima").

@@ -32,7 +32,7 @@ public class ClienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + idCliente));
     }
 
-    // CORRECCIÓN [76]: registrar() con idCliente natural, validación de unicidad de ID y email | MOTIVO: Restricción semántica 3 y modelo de referencia | ANTES: cliente.setRegistrado(false); return clienteRepository.save(cliente);
+    // CORRECCIÓN [76]: registrar() con idCliente natural, generación autoincremental de numeroCliente único y validación de unicidad | MOTIVO: Inconsistencias conocidas: numeroCliente autoincremental único no PK y Restricción semántica 3 | ANTES: cliente.setRegistrado(false); return clienteRepository.save(cliente);
     @Transactional
     public Cliente registrar(Cliente cliente) {
         if (clienteRepository.existsById(cliente.getIdCliente())) {
@@ -40,6 +40,12 @@ public class ClienteService {
         }
         if (clienteRepository.findByEmail(cliente.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un cliente con email: " + cliente.getEmail());
+        }
+
+        // Asignación autoincremental de numeroCliente
+        if (cliente.getNumeroCliente() == null) {
+            Integer maxNumero = clienteRepository.findMaxNumeroCliente();
+            cliente.setNumeroCliente(maxNumero != null ? maxNumero + 1 : 1);
         }
 
         if (cliente.getFechaRegistro() == null) {

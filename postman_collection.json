@@ -1,0 +1,534 @@
+{
+	"info": {
+		"_postman_id": "c1ne-soa-las-palmas-tests",
+		"name": "Cine Las Palmas - API REST Tests",
+		"description": "Colección completa de pruebas para la API REST del Cine 'Las Palmas', cubriendo casos exitosos y validaciones de reglas de negocio (capacidad máxima, asiento único, email, enum).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Salas",
+			"item": [
+				{
+					"name": "1.1 Crear Sala (Capacidad 2 para pruebas de límite)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacidad\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/salas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"salas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Listar Salas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/salas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"salas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Obtener Sala por Número",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/salas/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"salas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Peliculas",
+			"item": [
+				{
+					"name": "2.1 Crear Pelicula Exitosa (Clasificacion B15)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPelicula\": \"AVE-B15-SU\",\n  \"titulo\": \"Avengers Doomsday\",\n  \"sinopsis\": \"Los héroes más poderosos se enfrentan a una nueva amenaza.\",\n  \"clasificacion\": \"B15\",\n  \"duracionMinutos\": 150,\n  \"genero\": \"Superheroes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/peliculas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Crear Pelicula Fallida (Clasificación inválida ATP)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPelicula\": \"PEL-INV-01\",\n  \"titulo\": \"Película Inválida\",\n  \"sinopsis\": \"Sinopsis\",\n  \"clasificacion\": \"ATP\",\n  \"duracionMinutos\": 100,\n  \"genero\": \"Drama\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/peliculas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Listar Peliculas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 Filtrar Peliculas por Clasificación",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas?clasificacion=B15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							],
+							"query": [
+								{
+									"key": "clasificacion",
+									"value": "B15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.5 Obtener Pelicula por ID Natural",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas/AVE-B15-SU",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas",
+								"AVE-B15-SU"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Clientes",
+			"item": [
+				{
+					"name": "3.1 Registrar Cliente Exitoso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": \"CLI-2026-001\",\n  \"nombre\": \"Carlos Gomez\",\n  \"email\": \"carlos.gomez@cine.com\",\n  \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.2 Registrar Cliente Fallido (Email sin dominio formal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": \"CLI-ERR-001\",\n  \"nombre\": \"Usuario Malo\",\n  \"email\": \"email_sin_formato_valido\",\n  \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.3 Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.4 Consultar Puntos de Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clientes/CLI-2026-001/puntos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clientes",
+								"CLI-2026-001",
+								"puntos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Funciones",
+			"item": [
+				{
+					"name": "4.1 Programar Funcion (Retorna JSON anidado con Sala y Pelicula)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/funciones?idPelicula=AVE-B15-SU&idSala=1&fechaHora=2026-11-01T19:30:00&precio=85.00",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"funciones"
+							],
+							"query": [
+								{
+									"key": "idPelicula",
+									"value": "AVE-B15-SU"
+								},
+								{
+									"key": "idSala",
+									"value": "1"
+								},
+								{
+									"key": "fechaHora",
+									"value": "2026-11-01T19:30:00"
+								},
+								{
+									"key": "precio",
+									"value": "85.00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 Listar Funciones (Anidadas)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/funciones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"funciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 Obtener Funcion por UUID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/funciones/{{idFuncion}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"funciones",
+								"{{idFuncion}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Boletos y Reglas de Negocio",
+			"item": [
+				{
+					"name": "5.1 Comprar Boleto 1 (Exitoso - Fila 1 Asiento 1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boletos?idFuncion={{idFuncion}}&idCliente=CLI-2026-001&filaAsiento=1&numeroAsiento=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boletos"
+							],
+							"query": [
+								{
+									"key": "idFuncion",
+									"value": "{{idFuncion}}"
+								},
+								{
+									"key": "idCliente",
+									"value": "CLI-2026-001"
+								},
+								{
+									"key": "filaAsiento",
+									"value": "1"
+								},
+								{
+									"key": "numeroAsiento",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5.2 Regla 6: Intentar Mismo Asiento (Fila 1 Asiento 1) -> Espera 400 Bad Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boletos?idFuncion={{idFuncion}}&idCliente=CLI-2026-001&filaAsiento=1&numeroAsiento=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boletos"
+							],
+							"query": [
+								{
+									"key": "idFuncion",
+									"value": "{{idFuncion}}"
+								},
+								{
+									"key": "idCliente",
+									"value": "CLI-2026-001"
+								},
+								{
+									"key": "filaAsiento",
+									"value": "1"
+								},
+								{
+									"key": "numeroAsiento",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5.3 Comprar Boleto 2 (Exitoso - Fila 1 Asiento 2 - Sala Llena)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boletos?idFuncion={{idFuncion}}&idCliente=CLI-2026-001&filaAsiento=1&numeroAsiento=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boletos"
+							],
+							"query": [
+								{
+									"key": "idFuncion",
+									"value": "{{idFuncion}}"
+								},
+								{
+									"key": "idCliente",
+									"value": "CLI-2026-001"
+								},
+								{
+									"key": "filaAsiento",
+									"value": "1"
+								},
+								{
+									"key": "numeroAsiento",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5.4 Regla 5: Exceder Capacidad de Sala (Boleto 3) -> Espera 400 Bad Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boletos?idFuncion={{idFuncion}}&idCliente=CLI-2026-001&filaAsiento=1&numeroAsiento=3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boletos"
+							],
+							"query": [
+								{
+									"key": "idFuncion",
+									"value": "{{idFuncion}}"
+								},
+								{
+									"key": "idCliente",
+									"value": "CLI-2026-001"
+								},
+								{
+									"key": "filaAsiento",
+									"value": "1"
+								},
+								{
+									"key": "numeroAsiento",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5.5 Listar Boletos de la Función",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boletos/funcion/{{idFuncion}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boletos",
+								"funcion",
+								"{{idFuncion}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:6767"
+		},
+		{
+			"key": "idFuncion",
+			"value": "8f8b8bb1-e37d-4171-8bc6-a94f6c5fa57c"
+		}
+	]
+}
+
